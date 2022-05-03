@@ -1,5 +1,6 @@
 package cit.com.authentication
 
+import cit.com.model.JwtResponse
 import cit.com.model.JwtUser
 import com.auth0.jwt.JWT
 import com.auth0.jwt.JWTVerifier
@@ -21,13 +22,20 @@ class JwtConfig() {
         .build()
 
 
-    fun generateToken(user: JwtUser): String = JWT.create()
-        .withAudience(audience)
-        .withIssuer(issuer)
-        .withClaim("username", user.username)
-        .withClaim("id", user.id)
-        .withExpiresAt(Date(System.currentTimeMillis() + 60000))
-        .sign(jwtAlgorithm)
+    fun generateToken(user: JwtUser): JwtResponse  {
+        val date = Date(System.currentTimeMillis() + 60000)
+        return JwtResponse(
+            token = JWT.create()
+                .withAudience(audience)
+                .withIssuer(issuer)
+                .withClaim("username", user.username)
+                .withClaim("id", user.id)
+                .withExpiresAt(date)
+                .sign(jwtAlgorithm),
+            expiredIn = date.time,
+            username = user.username
+        )
+    }
 
     fun configureKtorFeature(config: JWTAuthenticationProvider.Config) = with(config) {
         verifier(jwtVerified)
