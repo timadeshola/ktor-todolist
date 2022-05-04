@@ -10,14 +10,18 @@ import org.ktorm.dsl.update
 import org.ktorm.entity.firstOrNull
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
+import org.ktorm.logging.ConsoleLogger
+import org.ktorm.logging.LogLevel
+
+val ktormDatabase = Database.connect(
+    url = "jdbc:mysql://localhost:3306/todo",
+    driver = "com.mysql.cj.jdbc.Driver",
+    user = "root",
+    password = "developer",
+    logger = ConsoleLogger(threshold = LogLevel.WARN)
+)
 
 class DatabaseManager {
-    private val url = "jdbc:mysql://localhost:3306/todo"
-    private val driver = "com.mysql.cj.jdbc.Driver"
-    private val user = "root"
-    private val password = "developer"
-    private val jdbcUrl = "$url?user=$user&password=$password"
-    private val ktormDatabase: Database = Database.connect(jdbcUrl)
 
     fun getAll(): List<TodoEntity> {
         return ktormDatabase.sequenceOf(TodoTable).toList();

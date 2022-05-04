@@ -1,7 +1,8 @@
-package cit.com.repository
+package cit.com.repository.impl
 
 import cit.com.model.TodoRequest
 import cit.com.entities.ToDo
+import cit.com.repository.TodoRepository
 
 class TodoRepositoryImpl : TodoRepository {
 

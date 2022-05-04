@@ -1,6 +1,7 @@
-package cit.com.repository
+package cit.com.repository.impl
 
 import cit.com.model.User
+import cit.com.repository.UserRepository
 
 class UserRepositoryImpl: UserRepository {
 

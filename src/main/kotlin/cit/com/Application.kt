@@ -13,7 +13,7 @@ import org.slf4j.event.Level
 fun main(args: Array<String>): Unit =
     io.ktor.server.netty.EngineMain.main(args)
 
-val jwtConfif = JwtConfig()
+val jwtConfig = JwtConfig()
 
 @Suppress("unused") // application.conf references the main function. This annotation prevents the IDE from marking it as unused.
 fun Application.module() {
@@ -21,7 +21,7 @@ fun Application.module() {
         level = Level.INFO
     }
     install(Authentication) {
-        jwt { jwtConfif.configureKtorFeature(this) }
+        jwt { jwtConfig.configureKtorFeature(this) }
     }
     configureRouting()
     todoRouting()

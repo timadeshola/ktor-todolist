@@ -4,10 +4,10 @@ import cit.com.authentication.JwtConfig
 import cit.com.model.JwtUser
 import cit.com.model.LoginRequest
 import cit.com.model.TodoRequest
-import cit.com.repository.MysqlTodoRepository
+import cit.com.repository.impl.MysqlTodoRepository
 import cit.com.repository.TodoRepository
 import cit.com.repository.UserRepository
-import cit.com.repository.UserRepositoryImpl
+import cit.com.repository.impl.UserRepositoryImpl
 import io.ktor.http.*
 import io.ktor.server.application.*
 import io.ktor.server.auth.*
