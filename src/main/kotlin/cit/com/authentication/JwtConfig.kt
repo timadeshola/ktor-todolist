@@ -10,12 +10,13 @@ import java.util.*
 
 class JwtConfig() {
     companion object Constants {
-        private val issuer = "jwt.issuer"
+        private val issuer =  "jwt.issuer"
         private val audience = "jwt.audience"
         private val myRealm = "jwt.realm"
     }
 
     private val jwtAlgorithm = Algorithm.HMAC256("secret")
+
     private val jwtVerified: JWTVerifier = JWT.require(jwtAlgorithm)
         .withAudience(audience)
         .withIssuer(issuer)

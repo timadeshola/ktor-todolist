@@ -2,6 +2,8 @@ package cit.com.database
 
 import cit.com.entities.ToDo
 import cit.com.model.TodoRequest
+import com.zaxxer.hikari.HikariConfig
+import com.zaxxer.hikari.HikariDataSource
 import org.ktorm.database.Database
 import org.ktorm.dsl.delete
 import org.ktorm.dsl.eq
@@ -10,21 +12,29 @@ import org.ktorm.dsl.update
 import org.ktorm.entity.firstOrNull
 import org.ktorm.entity.sequenceOf
 import org.ktorm.entity.toList
-import org.ktorm.logging.ConsoleLogger
-import org.ktorm.logging.LogLevel
 
-val ktormDatabase = Database.connect(
-    url = "jdbc:mysql://localhost:3306/todo",
-    driver = "com.mysql.cj.jdbc.Driver",
-    user = "root",
-    password = "developer",
-    logger = ConsoleLogger(threshold = LogLevel.WARN)
-)
 
 class DatabaseManager {
 
+    private fun dataSource(): HikariDataSource {
+        val config = HikariConfig()
+        config.username = "root"
+        config.password = "developer"
+        config.driverClassName = "com.mysql.cj.jdbc.Driver"
+        config.jdbcUrl = "jdbc:mysql://localhost:3306/todo"
+        config.maximumPoolSize = 3
+        config.isAutoCommit = false
+        config.transactionIsolation = "TRANSACTION_REPEATABLE_READ"
+        config.validate()
+        return HikariDataSource(config)
+    }
+
+    val ktormDatabase = Database.connect(dataSource())
+
     fun getAll(): List<TodoEntity> {
-        return ktormDatabase.sequenceOf(TodoTable).toList();
+        ktormDatabase.useTransaction {
+            return ktormDatabase.sequenceOf(TodoTable).toList();
+        }
     }
 
     fun getTodo(id: Int): TodoEntity? {

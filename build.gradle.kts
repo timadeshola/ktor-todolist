@@ -4,6 +4,7 @@ val logback_version: String by project
 val mysql_version = "8.0.29"
 val ktorm_version = "3.2.0"
 val ktorm_mysql_version = "3.4.1"
+val hikariCpVersion = "5.0.1"
 
 plugins {
     application
@@ -39,6 +40,7 @@ dependencies {
     implementation("mysql:mysql-connector-java:$mysql_version")
     implementation("org.ktorm:ktorm-core:$ktorm_version")
     implementation ("org.ktorm:ktorm-support-mysql:$ktorm_mysql_version")
+    implementation("com.zaxxer:HikariCP:$hikariCpVersion")
 
 //    Security
     implementation("io.ktor:ktor-server-auth:$ktor_version")
